@@ -16,7 +16,7 @@ public class CalculateClient {
                 serverIP = scanner.nextLine();
                 port = Integer.parseInt(scanner.nextLine());
             } catch (Exception e) {
-                System.out.println("서버 정보를 불러오는 데 실패했습니다. 기본값을 사용합니다.");
+                System.out.println("Failed to load server information. Using default values.");
             }
         }
 
@@ -25,9 +25,9 @@ public class CalculateClient {
              var writer = new PrintWriter(socket.getOutputStream(), true);
              var scanner = new Scanner(System.in)) {
 
-            System.out.println("서버에 연결되었습니다: " + serverIP + ":" + port);
+            System.out.println("Connected with Server: " + serverIP + ":" + port);
             while (true) {
-                System.out.println("산술 연산을 입력하거나 'exit'를 입력하여 종료하세요 (예: 1 + 2): !!띄어쓰기 필수!!");
+                System.out.println("Enter an arithmetic operation or type 'exit' to quit (e.g. 1 + 2): !!spacing is mandatory!!");
                 String input = scanner.nextLine();
 
                 if ("exit".equalsIgnoreCase(input)) {
@@ -36,10 +36,10 @@ public class CalculateClient {
 
                 writer.println(input);
                 String response = reader.readLine();
-                System.out.println("서버 응답: " + response);
+                System.out.println("Server Response: " + response);
             }
         } catch (Exception e) {
-            System.out.println("오류 발생: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 }

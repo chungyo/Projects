@@ -1,11 +1,17 @@
-package Client;
-import java.io.*;
-import java.net.*;
-import java.util.*;
+package Calculator;
+
+import Calculator.ErrorType.Type;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.util.Scanner;
 
 public class CalculateClient {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         // 서버 정보를 파일에서 불러오기
         String serverIP = "localhost";
         int port = 1234;
@@ -36,7 +42,19 @@ public class CalculateClient {
 
                 writer.println(input);
                 String response = reader.readLine();
-                System.out.println("Server Response: " + response);
+                if (response.startsWith("Error: ")) {
+                    // 서버에서 보낸 에러 메시지를 추출합니다.
+                    String errorCodeStr = response.substring("Error: ".length());
+                    try {
+                        int errorCode = Integer.parseInt(errorCodeStr);
+                        System.out.println("Error: " + Type.getDescriptionFromCode(errorCode));
+                    } catch (NumberFormatException e) {
+                        System.out.println("Server sent an invalid error code.");
+                    }
+                } else {
+                    // 정상적인 연산 결과를 출력합니다.
+                    System.out.println("Server Response: " + response);
+                }
             }
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());

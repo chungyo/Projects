@@ -17,6 +17,7 @@ public class CalculateClient {
         int port = 1234;
         File configFile = new File("server_info.dat");
 
+        // 서버 정보가 담긴 파일이 존재한다면, 그 파일 사용. 아닐시 default값 사용
         if (configFile.exists()) {
             try (Scanner scanner = new Scanner(configFile)) {
                 serverIP = scanner.nextLine();
@@ -24,6 +25,9 @@ public class CalculateClient {
             } catch (Exception e) {
                 System.out.println("Failed to load server information. Using default values.");
             }
+        }
+        else {
+            System.out.println("Configuration file not found. Using default values.");
         }
 
         try (Socket socket = new Socket(serverIP, port);
